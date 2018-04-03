@@ -31,7 +31,7 @@ RUN ln -sf /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/loca
 # INSTALL GRAPHICSMAGICK
 RUN apt-get -qy install graphicsmagick
 
-ADD docker/ecosystem.config.js /usr/local/ims/ecosystem.config.js
+ADD ecosystem.config.js /usr/local/ims/ecosystem.config.js
 RUN mkdir /usr/local/ims/store/ims.core.administration -p
 
 ENV NODE_ENV development
