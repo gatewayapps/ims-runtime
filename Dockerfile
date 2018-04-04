@@ -37,6 +37,7 @@ RUN echo "deb http://download.mono-project.com/repo/ubuntu stable-xenial main" |
 RUN apt-get update
 RUN apt-get install -qq mono-complete referenceassemblies-pcl mono-xsp4
 RUN apt-get install -qq mono-fastcgi-server4
+RUN apt-get install -qq nuget
 
 # CONFIGURE FASTCGI PARAMS
 RUN echo 'fastcgi_param PATH_INFO   "";' >> /usr/local/openresty/nginx/conf/fastcgi_params
