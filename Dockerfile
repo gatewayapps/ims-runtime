@@ -11,6 +11,9 @@ RUN apt-get update && apt-get install -qq cron wget curl unzip software-properti
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
 RUN apt-get -qy install nodejs
 
+# UPDATE NPM to 6.2.0
+RUN npm i -g npm@^6.2.0
+
 # INSTALL GLOBAL NODE MODULES
 RUN npm i -g pm2 bunyan gulp-cli
 
@@ -32,12 +35,12 @@ RUN ln -sf /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/loca
 RUN apt-get -qy install graphicsmagick
 
 # INSTALL MONO
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-RUN echo "deb http://download.mono-project.com/repo/ubuntu stable-xenial main" | tee /etc/apt/sources.list.d/mono-official-stable.list
-RUN apt-get update
-RUN apt-get install -qq mono-complete referenceassemblies-pcl mono-xsp4
-RUN apt-get install -qq mono-fastcgi-server4
-RUN apt-get install -qq nuget
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+sudo echo "deb http://download.mono-project.com/repo/ubuntu stable-xenial main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
+sudo apt-get update
+sudo apt-get install -qq mono-complete referenceassemblies-pcl mono-xsp4
+sudo apt-get install -qq mono-fastcgi-server4
+sudo apt-get install -qq nuget
 
 # CONFIGURE FASTCGI PARAMS
 RUN echo 'fastcgi_param PATH_INFO   "";' >> /usr/local/openresty/nginx/conf/fastcgi_params
