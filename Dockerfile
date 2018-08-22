@@ -4,18 +4,33 @@ MAINTAINER Daniel Gary <daniel@gatewayapps.com>
 RUN mkdir /usr/local/ims -p
 WORKDIR /usr/local/ims
 
+ENV NVM_DIR /usr/local/nvm
+ENV NODE_VERSION 8.11.3
+
 # INSTALL COMMON
 RUN apt-get update && apt-get install -qq cron wget curl unzip software-properties-common build-essential git
 
-# INSTALL NODE
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
-RUN apt-get -qy install nodejs
+RUN apt-get install -y -q --no-install-recommends  sudo g++ gcc git make
 
-# UPDATE NPM to 6.2.0
-RUN npm i -g npm@^6.2.0
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+
+# Install nvm with node and npm
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.26.0/install.sh | bash \
+    && source $NVM_DIR/nvm.sh \
+    && nvm install $NODE_VERSION \
+    && nvm alias default $NODE_VERSION \
+    && nvm use default \
+    && npm install -g npm \
+    && npm cache clean --force
+
+# Set up our PATH correctly so we don't have to long-reference npm, node, &c.
+ENV NODE_PATH $NVM_DIR/versions/node/v$NODE_VERSION/lib/node_modules
+ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 # INSTALL GLOBAL NODE MODULES
 RUN npm i -g pm2 bunyan gulp-cli
+
+RUN npm --version
 
 # INSTALL OPENRESTY
 RUN wget -qO - https://openresty.org/package/pubkey.gpg | apt-key add -
