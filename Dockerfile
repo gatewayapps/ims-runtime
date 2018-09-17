@@ -32,6 +32,10 @@ RUN npm i -g pm2 bunyan gulp-cli
 
 RUN npm --version
 
+# INSTALL Python
+RUN apt-get -qy install python2.7
+RUN ln -s /usr/bin/python2.7 /usr/bin/python
+
 # INSTALL OPENRESTY
 RUN wget -qO - https://openresty.org/package/pubkey.gpg | apt-key add -
 RUN add-apt-repository "deb http://openresty.org/package/ubuntu $(lsb_release -sc) main"
